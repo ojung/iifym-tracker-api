@@ -4,11 +4,12 @@
             [ring.middleware.json :refer [wrap-json-response]]
             [ring.middleware.logger :refer [wrap-with-logger]]
             [compojure.core :refer :all]
-            [iifym-tracker-api.search]))
+            [iifym-tracker-api.connectors.usda :as usda]))
 
 (defroutes app-routes
   (GET "/" []  {:body []})
-  (GET "/search" [] iifym-tracker-api.search/search)
+  (GET "/search" [] usda/search)
+  (GET "/nutrients/:id" [id] (usda/nutrients id))
   (route/not-found "Not Found"))
 
 (defn wrap-cors [handler]
